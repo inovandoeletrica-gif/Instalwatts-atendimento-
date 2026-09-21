@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5c400">
+  <title>Instalwatts Soluções | Solicitação de Atendimento</title>
+  <style>
+    :root{
+      --yellow:#f5c400; --dark:#171717; --gray:#f4f4f4;
+      --text:#222; --muted:#666; --border:#ddd; --green:#25d366;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--gray);color:var(--text)}
+    .container{max-width:720px;margin:auto;padding:18px}
+    header{background:var(--dark);color:#fff;padding:24px 18px;text-align:center}
+    .logo{font-size:28px;font-weight:800;letter-spacing:.3px}
+    .logo span{color:var(--yellow)}
+    header p{margin:8px 0 0;color:#ddd;font-size:14px}
+    .card{background:#fff;border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 3px 15px rgba(0,0,0,.06)}
+    h2{font-size:19px;margin:0 0 8px}
+    .intro{color:var(--muted);line-height:1.5;font-size:14px}
+    label{display:block;font-weight:700;font-size:14px;margin:16px 0 7px}
+    input,select,textarea{
+      width:100%;padding:13px;border:1px solid var(--border);border-radius:10px;
+      font-size:16px;background:#fff;outline:none
+    }
+    input:focus,select:focus,textarea:focus{border-color:#c49d00;box-shadow:0 0 0 2px rgba(245,196,0,.18)}
+    textarea{min-height:105px;resize:vertical}
+    .required{color:#c00}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .service-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .service{
+      border:2px solid #e2e2e2;border-radius:12px;padding:13px 10px;
+      background:#fff;cursor:pointer;font-weight:700;text-align:left
+    }
+    .service.selected{border-color:var(--yellow);background:#fff9d9}
+    .service small{display:block;color:var(--muted);font-weight:400;margin-top:4px}
+    .conditional{display:none}
+    .conditional.active{display:block}
+    .note{font-size:12px;color:var(--muted);line-height:1.45;margin-top:7px}
+    .btn{
+      width:100%;border:0;border-radius:12px;padding:15px;font-size:17px;
+      font-weight:800;cursor:pointer
+    }
+    .btn-yellow{background:var(--yellow);color:#111}
+    .btn-whatsapp{background:var(--green);color:#fff;margin-top:10px}
+    .btn-secondary{background:#eee;color:#222;margin-top:10px}
+    .success{display:none;text-align:center}
+    .success.active{display:block}
+    .check{font-size:48px}
+    footer{text-align:center;color:#777;font-size:12px;padding:8px 18px 30px}
+    .emergency{background:#fff2f2;border:1px solid #f0b8b8;padding:12px;border-radius:10px;font-size:13px;line-height:1.45;margin-top:12px}
+    @media(max-width:560px){
+      .grid,.service-grid{grid-template-columns:1fr}
+      .container{padding:12px}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⚡ INSTALWATTS <span>SOLUÇÕES</span></div>
+  <p>Serviços elétricos residenciais, comerciais e industriais</p>
+</header>
+
+<main class="container">
+
+  <section class="card">
+    <h2>Solicite seu atendimento</h2>
+    <p class="intro">
+      Preencha os dados abaixo. Sua solicitação será organizada em uma mensagem
+      e enviada diretamente pelo WhatsApp da Instalwatts.
+    </p>
+
+    <label>Nome completo <span class="required">*</span></label>
+    <input id="nome" type="text" placeholder="Seu nome">
+
+    <label>WhatsApp <span class="required">*</span></label>
+    <input id="telefone" type="tel" placeholder="(11) 99999-9999">
+
+    <label>Tipo de imóvel <span class="required">*</span></label>
+    <select id="imovel">
+      <option value="">Selecione</option>
+      <option>Residencial</option>
+      <option>Comercial</option>
+      <option>Industrial</option>
+    </select>
+  </section>
+
+  <section class="card">
+    <h2>Qual atendimento você precisa?</h2>
+    <p class="intro">Escolha uma opção para mostrar somente as perguntas relacionadas ao seu serviço.</p>
+
+    <div class="service-grid" id="servicos">
+      <button type="button" class="service" data-service="🚨 Emergência elétrica">
+        🚨 Emergência
+        <small>Falha ou risco elétrico</small>
+      </button>
+      <button type="button" class="service" data-service="🔧 Manutenção elétrica">
+        🔧 Manutenção
+        <small>Reparo e adequação</small>
+      </button>
+      <button type="button" class="service" data-service="💰 Orçamento">
+        💰 Orçamento
+        <small>Solicitar avaliação</small>
+      </button>
+      <button type="button" class="service" data-service="📍 Visita técnica + orçamento">
+        📍 Visita técnica
+        <small>Avaliação presencial</small>
+      </button>
+      <button type="button" class="service" data-service="🔎 Diagnóstico elétrico">
+        🔎 Diagnóstico
+        <small>Identificar falha</small>
+      </button>
+      <button type="button" class="service" data-service="💡 Iluminação">
+        💡 Iluminação
+        <small>LED, spots, luminárias</small>
+      </button>
+      <button type="button" class="service" data-service="🤖 Automação">
+        🤖 Automação
+        <small>Comandos e iluminação</small>
+      </button>
+      <button type="button" class="service" data-service="⚡ Padrão de entrada">
+        ⚡ Padrão de entrada
+        <small>Instalação ou adequação</small>
+      </button>
+      <button type="button" class="service" data-service="🔌 Outro serviço">
+        🔌 Outro
+        <small>Outro serviço elétrico</small>
+      </button>
+    </div>
+    <input id="servico" type="hidden">
+
+    <div id="emergencia" class="conditional">
+      <label>Qual problema está acontecendo?</label>
+      <select id="problemaEmergencia">
+        <option value="">Selecione</option>
+        <option>Falta de energia em parte da instalação</option>
+        <option>Cheiro de queimado</option>
+        <option>Curto-circuito</option>
+        <option>Disjuntor desarmando</option>
+        <option>Tomada ou fiação aquecendo</option>
+        <option>Problema no quadro elétrico</option>
+        <option>Problema de iluminação</option>
+        <option>Outro</option>
+      </select>
+
+      <label>Existe fumaça, faísca, cheiro forte de queimado ou risco de choque?</label>
+      <select id="risco">
+        <option value="">Selecione</option>
+        <option>Sim</option>
+        <option>Não</option>
+        <option>Não sei</option>
+      </select>
+
+      <label>Quando começou?</label>
+      <select id="quandoEmergencia">
+        <option value="">Selecione</option>
+        <option>Agora</option>
+        <option>Hoje</option>
+        <option>Há alguns dias</option>
+        <option>Há mais tempo</option>
+      </select>
+
+      <label>Explique o que aconteceu</label>
+      <textarea id="descEmergencia" placeholder="Descreva o problema..."></textarea>
+
+      <div class="emergency">
+        ⚠️ Se houver fumaça, fogo, faíscas ou risco de choque, mantenha distância.
+        Se for seguro, desligue o circuito/disjuntor e procure atendimento adequado.
+      </div>
+    </div>
+
+    <div id="manutencao" class="conditional">
+      <label>Tipo de manutenção</label>
+      <select id="tipoManutencao">
+        <option value="">Selecione</option>
+        <option>Tomadas e interruptores</option>
+        <option>Iluminação</option>
+        <option>Quadro elétrico</option>
+        <option>Disjuntores</option>
+        <option>Fiação e cabos</option>
+        <option>Chuveiro elétrico</option>
+        <option>Aterramento</option>
+        <option>Adequação da instalação</option>
+        <option>Outro</option>
+      </select>
+      <label>Descreva o serviço</label>
+      <textarea id="descManutencao" placeholder="O que precisa ser feito?"></textarea>
+    </div>
+
+    <div id="orcamento" class="conditional">
+      <label>Qual serviço deseja orçar?</label>
+      <input id="servicoOrcamento" type="text" placeholder="Ex.: instalação de tomadas">
+      <label>Descreva o serviço</label>
+      <textarea id="descOrcamento" placeholder="Informe detalhes, quantidades e medidas se souber."></textarea>
+    </div>
+
+    <div id="visita" class="conditional">
+      <p class="intro"><strong>Visita técnica:</strong> o valor da visita e as condições de eventual abatimento devem ser confirmados pela Instalwatts antes do agendamento.</p>
+      <label>Qual serviço deseja avaliar?</label>
+      <textarea id="descVisita" placeholder="Explique o que precisa ser avaliado."></textarea>
+      <label>Melhor data</label>
+      <input id="dataVisita" type="date">
+      <label>Melhor período</label>
+      <select id="periodoVisita">
+        <option value="">Selecione</option>
+        <option>Manhã</option>
+        <option>Tarde</option>
+        <option>Noite</option>
+      </select>
+    </div>
+
+    <div id="diagnostico" class="conditional">
+      <label>Qual problema está acontecendo?</label>
+      <select id="problemaDiagnostico">
+        <option value="">Selecione</option>
+        <option>Disjuntor desarmando</option>
+        <option>Tomada sem energia</option>
+        <option>Oscilação de energia</option>
+        <option>Queda de energia</option>
+        <option>Aquecimento</option>
+        <option>Curto-circuito</option>
+        <option>Falha intermitente</option>
+        <option>Outro</option>
+      </select>
+      <label>Descreva o problema</label>
+      <textarea id="descDiagnostico" placeholder="Quando acontece? O que já foi observado?"></textarea>
+    </div>
+
+    <div id="iluminacao" class="conditional">
+      <label>O que deseja instalar?</label>
+      <select id="tipoIluminacao">
+        <option value="">Selecione</option>
+        <option>Luminárias</option>
+        <option>Spots</option>
+        <option>LED</option>
+        <option>Fita LED</option>
+        <option>Refletores</option>
+        <option>Sensores</option>
+        <option>Interruptores</option>
+        <option>Outro</option>
+      </select>
+      <label>Descreva o projeto</label>
+      <textarea id="descIluminacao" placeholder="Informe o que deseja fazer."></textarea>
+    </div>
+
+    <div id="automacao" class="conditional">
+      <label>O que gostaria de automatizar?</label>
+      <select id="tipoAutomacao">
+        <option value="">Selecione</option>
+        <option>Iluminação</option>
+        <option>Tomadas</option>
+        <option>Equipamentos</option>
+        <option>Outro</option>
+      </select>
+      <label>Explique o que deseja</label>
+      <textarea id="descAutomacao" placeholder="Conte como gostaria que funcionasse."></textarea>
+    </div>
+
+    <div id="padrao" class="conditional">
+      <label>Qual serviço precisa?</label>
+      <select id="tipoPadrao">
+        <option value="">Selecione</option>
+        <option>Instalação</option>
+        <option>Adequação</option>
+        <option>Manutenção</option>
+        <option>Troca de padrão</option>
+        <option>Aumento de carga</option>
+        <option>Outro</option>
+      </select>
+      <label>Concessionária</label>
+      <select id="concessionaria">
+        <option value="">Selecione</option>
+        <option>Enel</option>
+        <option>Outra</option>
+        <option>Não sei</option>
+      </select>
+      <label>O padrão já existe?</label>
+      <select id="padraoExiste">
+        <option value="">Selecione</option>
+        <option>Sim</option>
+        <option>Não</option>
+        <option>Não sei</option>
+      </select>
+      <label>Descreva o que precisa ser feito</label>
+      <textarea id="descPadrao" placeholder="Informe o que precisa ser feito."></textarea>
+    </div>
+
+    <div id="outro" class="conditional">
+      <label>Descreva o serviço</label>
+      <textarea id="descOutro" placeholder="Informe o que você precisa."></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>📍 Local do atendimento</h2>
+    <label>Rua / Avenida <span class="required">*</span></label>
+    <input id="rua" type="text" placeholder="Ex.: Rua das Flores">
+
+    <div class="grid">
+      <div>
+        <label>Número <span class="required">*</span></label>
+        <input id="numero" type="text" placeholder="123">
+      </div>
+      <div>
+        <label>CEP</label>
+        <input id="cep" type="text" placeholder="00000-000">
+      </div>
+    </div>
+
+    <label>Complemento</label>
+    <input id="complemento" type="text" placeholder="Casa, apartamento, fundos...">
+
+    <label>Bairro <span class="required">*</span></label>
+    <input id="bairro" type="text" placeholder="Bairro">
+  </section>
+
+  <section class="card">
+    <h2>📅 Preferência de atendimento</h2>
+    <label>Melhor período</label>
+    <select id="periodoGeral">
+      <option value="">Selecione</option>
+      <option>Manhã</option>
+      <option>Tarde</option>
+      <option>Noite</option>
+      <option>Flexível</option>
+    </select>
+
+    <label>Observações</label>
+    <textarea id="observacoes" placeholder="Alguma informação importante para o atendimento?"></textarea>
+
+    <button class="btn btn-yellow" type="button" onclick="enviarWhatsApp()">
+      ⚡ ENVIAR SOLICITAÇÃO
+    </button>
+
+    <p class="note">
+      O envio pelo botão abrirá o WhatsApp com a solicitação preenchida.
+      O agendamento só será considerado confirmado após a confirmação da Instalwatts.
+    </p>
+  </section>
+
+  <section id="sucesso" class="card success">
+    <div class="check">✅</div>
+    <h2>Solicitação preparada!</h2>
+    <p class="intro">O WhatsApp será aberto para você enviar os dados à Instalwatts.</p>
+    <button class="btn btn-whatsapp" type="button" onclick="abrirWhatsApp()">
+      📲 ENVIAR PELO WHATSAPP
+    </button>
+    <button class="btn btn-secondary" type="button" onclick="location.reload()">
+      Fazer nova solicitação
+    </button>
+  </section>
+
+</main>
+
+<footer>
+  © Instalwatts Soluções • Serviços elétricos residenciais, comerciais e industriais
+</footer>
+
+<script>
+  /*
+   * ============================
+   * CONFIGURAÇÃO PRINCIPAL
+   * ============================
+   *
+   * TROQUE SOMENTE o número abaixo pelo WhatsApp da Instalwatts.
+   * Use DDI + DDD + número, sem espaços, parênteses ou traços.
+   * Exemplo: 5511999999999
+   */
+  const WHATSAPP_INSTALWATTS = "5511961245165";
+
+  let mensagemFinal = "";
+
+  const mapa = {
+    "🚨 Emergência elétrica":"emergencia",
+    "🔧 Manutenção elétrica":"manutencao",
+    "💰 Orçamento":"orcamento",
+    "📍 Visita técnica + orçamento":"visita",
+    "🔎 Diagnóstico elétrico":"diagnostico",
+    "💡 Iluminação":"iluminacao",
+    "🤖 Automação":"automacao",
+    "⚡ Padrão de entrada":"padrao",
+    "🔌 Outro serviço":"outro"
+  };
+
+  document.querySelectorAll(".service").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      document.querySelectorAll(".service").forEach(b=>b.classList.remove("selected"));
+      btn.classList.add("selected");
+
+      const service = btn.dataset.service;
+      document.getElementById("servico").value = service;
+
+      document.querySelectorAll(".conditional").forEach(el=>el.classList.remove("active"));
+      const id = mapa[service];
+      if(id) document.getElementById(id).classList.add("active");
+    });
+  });
+
+  function v(id){
+    const el=document.getElementById(id);
+    return el ? el.value.trim() : "";
+  }
+
+  function validar(){
+    const obrigatorios=[
+      ["nome","Nome"],
+      ["telefone","WhatsApp"],
+      ["imovel","Tipo de imóvel"],
+      ["servico","Tipo de atendimento"],
+      ["rua","Rua / Avenida"],
+      ["numero","Número"],
+      ["bairro","Bairro"]
+    ];
+
+    for(const item of obrigatorios){
+      if(!v(item[0])){
+        alert("Por favor, preencha: " + item[1]);
+        document.getElementById(item[0]).focus();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function detalhesServico(){
+    const serv=v("servico");
+
+    if(serv.includes("Emergência")){
+      return [
+        "Problema: "+v("problemaEmergencia"),
+        "Risco elétrico: "+v("risco"),
+        "Quando começou: "+v("quandoEmergencia"),
+        "Descrição: "+v("descEmergencia")
+      ].join("\n");
+    }
+
+    if(serv.includes("Manutenção")){
+      return [
+        "Tipo de manutenção: "+v("tipoManutencao"),
+        "Descrição: "+v("descManutencao")
+      ].join("\n");
+    }
+
+    if(serv.includes("Orçamento")){
+      return [
+        "Serviço a orçar: "+v("servicoOrcamento"),
+        "Descrição: "+v("descOrcamento")
+      ].join("\n");
+    }
+
+    if(serv.includes("Visita")){
+      return [
+        "Serviço a avaliar: "+v("descVisita"),
+        "Data preferida: "+v("dataVisita"),
+        "Período: "+v("periodoVisita")
+      ].join("\n");
+    }
+
+    if(serv.includes("Diagnóstico")){
+      return [
+        "Problema: "+v("problemaDiagnostico"),
+        "Descrição: "+v("descDiagnostico")
+      ].join("\n");
+    }
+
+    if(serv.includes("Iluminação")){
+      return [
+        "Tipo: "+v("tipoIluminacao"),
+        "Descrição: "+v("descIluminacao")
+      ].join("\n");
+    }
+
+    if(serv.includes("Automação")){
+      return [
+        "Tipo: "+v("tipoAutomacao"),
+        "Descrição: "+v("descAutomacao")
+      ].join("\n");
+    }
+
+    if(serv.includes("Padrão")){
+      return [
+        "Serviço: "+v("tipoPadrao"),
+        "Concessionária: "+v("concessionaria"),
+        "Padrão já existe: "+v("padraoExiste"),
+        "Descrição: "+v("descPadrao")
+      ].join("\n");
+    }
+
+    return "Descrição: "+v("descOutro");
+  }
+
+  function montarMensagem(){
+    return `⚡ *NOVO ATENDIMENTO - INSTALWATTS SOLUÇÕES*
+
+👤 *Cliente:* ${v("nome")}
+📱 *WhatsApp:* ${v("telefone")}
+🏠 *Imóvel:* ${v("imovel")}
+
+🔧 *Atendimento:* ${v("servico")}
+
+📋 *Detalhes do serviço:*
+${detalhesServico()}
+
+📍 *ENDEREÇO*
+${v("rua")}, ${v("numero")}
+${v("complemento") ? v("complemento") + "\\n" : ""}${v("bairro")}${v("cep") ? " - CEP "+v("cep") : ""}
+
+📅 *Preferência de atendimento:* ${v("periodoGeral") || "Não informado"}
+
+📝 *Observações:*
+${v("observacoes") || "Nenhuma"}
+
+_Cliente enviou esta solicitação pelo formulário da Instalwatts._`;
+  }
+
+  function enviarWhatsApp(){
+    if(!validar()) return;
+
+    mensagemFinal=montarMensagem();
+
+    document.getElementById("sucesso").classList.add("active");
+    document.getElementById("sucesso").scrollIntoView({behavior:"smooth"});
+
+    setTimeout(abrirWhatsApp,500);
+  }
+
+  function abrirWhatsApp(){
+    const url="https://wa.me/"+WHATSAPP_INSTALWATTS+"?text="+encodeURIComponent(mensagemFinal);
+    window.open(url,"_blank");
+  }
+</script>
+
+</body>
+</html>
